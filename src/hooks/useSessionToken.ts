@@ -1,15 +1,19 @@
 import { useMemo } from "react";
-import { useLocalStorage } from "./useLocalStorage";
+import  useLocalStorage from "./useLocalStorage";
 import { v4 as uuidv4 } from "uuid";
 
-export const useSessionToken = () => {
+export const useSessionToken = (): string | null => {
     const { get, set } = useLocalStorage();
+
     const sessionToken = useMemo(() => {
-        if (!get("sessionToken")) {
-            set("sessionToken", uuidv4());
+        const token = get("sessionToken");
+        if (!token) {
+            const newToken = uuidv4();
+            set("sessionToken", newToken);
+            return newToken;
         }
-        return get("sessionToken");
-    }, [get]);
+        return token;
+    }, [get, set]);
 
     return sessionToken;
 };

@@ -1,8 +1,15 @@
 import { useEffect, useState, useMemo } from "react";
 import {getItineraries} from "../api/back-api/itineraries";
 
+interface itinerary {
+    id: number;
+    title: string;
+    startDate: string;
+    endDate: string;
+}
+
 export const useItineraries = () => {
-    const [itineraries, setItineraries] = useState([]) as any[];
+    const [itineraries, setItineraries] = useState<itinerary[]>([]);
     const token = useMemo(() => window.localStorage.getItem('token'), [])
 
     useEffect(() => {

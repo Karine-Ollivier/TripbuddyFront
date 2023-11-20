@@ -1,17 +1,22 @@
-export const useLocalStorage = () => {
-    const get = (key: string) => {
+const useLocalStorage = () => {
+    const get = (key: string): string | null => {
         try {
-            const item = window.localStorage.getItem(key);
-            return item ? JSON.parse(item) : null;
+            return window.localStorage.getItem(key);
         } catch (error) {
             console.warn(`Error getting localStorage item ${key}:`, error);
             return null;
         }
     };
 
-    const set = (key: string, value: any) => {
-        window.localStorage.setItem(key, JSON.stringify(value));
+    const set = (key: string, value: string): void => {
+        try {
+            window.localStorage.setItem(key, value);
+        } catch (error) {
+            console.warn(`Error setting localStorage item ${key}:`, error);
+        }
     };
 
     return { get, set };
 };
+
+export default useLocalStorage;
